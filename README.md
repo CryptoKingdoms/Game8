@@ -2,17 +2,17 @@
 
 ## Introduction
 
-Crypto Kingdoms is a strategy game. (It is not a gambling game.) New players are given a kingdom in which they are able to recruit various types of units, build buildings, attack, spy, and sabotage other player kingdoms in order to gain the most gold at the end of the game. The kingdom with the most gold at the end of the game wins a prize of Ethereum which is required to play the game. The game is ran openly, securely, and unstoppably on the decentralised Ethereum blockchain.
+Crypto Kingdoms is a strategy game. (It is not a gambling game.) New players are given a kingdom in which they are able to recruit various types of units, build buildings, attack, spy, and sabotage other player kingdoms in order to gain the most gold at the end of the game. The kingdom with the most gold at the end of the game wins a prize pool of Ethereum! The game is ran openly, securely, and unstoppably on the decentralised Ethereum blockchain.
 
-The game lasts 33 days with a turn time of 9 hours. At each turn the amount of gold and soldiers in each kingdom will be updated based on the current kingdom's stats (such as its number of barracks and mining camps). When the last turn occurs the game will end and the kingdom with the most gold will be the winner. This winning kingdom's Ethereum address will have transferred to it an Ethereum prize.
+The game lasts 33 days and has a turn that occurs every 11 hours. When the turn occurs the amount of gold and soldiers in each kingdom is updated based on the current kingdom's stats (e.g. number of mining camps and barracks). When the last turn occurs the game will end and the kingdom with the most gold will be the winner. This winning kingdom's Ethereum address will have transferred to it an Ethereum prize.
 
 ## Game Rules
 
 ### Basic Rules
 
-A player may join any time after the game has started. The starting gold and actions are balanced to give all players a chance of winning so long as they join the game before it is half way through. All players have a maximum amount of Ethereum that they are able to spend in order to complete the game which is estimated and displayed before joining.
+A player may join any time after the game has started. The starting gold and actions are balanced to give all players a chance of winning so long as they join the game before it is no more than half way through. All players have a maximum amount of actions that they are able to spend within the game, and so the overall game cost is estimated and displayed before joining.
 
-A player will receive 1 action every turn (9 hours) which may be used at any time during the game time. The following actions can be made.
+A player receives 1 action every turn (11 hours) which may be used at any time during the game time. The following actions can be made.
 
     * Recruit Soliders
         - Soldiers provide good attack power but die easily.
@@ -70,11 +70,11 @@ A player will receive 1 action every turn (9 hours) which may be used at any tim
 
 ## Detailed Rules
 
-Hover your cursor over action buttons and your kingdom's stats on CryptoKingdoms.org once you've joined the game to see further details. On a mobile device, tap on once for details and tap twice to use one.
+Hover your cursor over action buttons and your kingdom's stats and actions in the game's website client over at www.CryptoKingdoms.org to see further details. On a mobile device, tap on once for details, and tap again to use an action.
 
 ## Complete Rules
 
-Check out the file CryptoKingdoms.sol (linked on CryptoKingdoms.org) for the full program source code for the Crypto Kingdoms smart contract that runs on the Ethereum blockchain. You shouldn't need to read the code to be able to play Crypto Kingdoms, the website should explain everything!
+Check out the file CryptoKingdoms.sol for the full Ethereum smart contract program source code for the complete programmed rules that run on the Ethereum blockchain. You shouldn't need to read the code to be able to play Crypto Kingdoms, the website should explain everything, but the code is there if you want it!
 
 ## Fees
 
