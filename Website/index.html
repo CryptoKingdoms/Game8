@@ -10,7 +10,7 @@
         <meta name="description" content="An Ethereum blockchain strategy game. Grow your kingdom and attack other players to win the Ethereum prize!">
         <meta name="keywords" content="Crypto, Kingdoms, Kingdom, Ethereum, Blockchain, Smart Contract, Game, Strategy, Gold, MetaMask, Turn-Based, Army, Soldier, Spy, Wizard, Dragon, Castle">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        
+
         <link type="image/ico" href="./favicon.ico" rel="icon">
 
         <script type="text/javascript" src="vue.min.js"></script>
@@ -1884,7 +1884,7 @@
                         <br>
                         <p>Couldn't find the active game! 😱</p>
                         <br>
-                        <p><strong>You need to switch from the "Main Ethereum Network" to the "Ropsten Test Network" in MetaMask.</strong></p>
+                        <p><strong>You need to switch to the "Main Ethereum Network" in MetaMask or in your app's settings.</strong></p>
                         <br>
                         <p>You may need to refresh the page or restart Google Chrome.</p>
                         <br>
@@ -1908,10 +1908,16 @@
                             <div v-else-if="gameStats.gameCurrentTurn < (gameStats.gameTurns * 3 / 4)">
                                 <p v-bind:style="topText">A game is currently under way!</p>
                             </div>
-                            <div v-else-if="gameStats.gameCurrentTurn < (gameStats.gameTurns * 4 / 5)">
+                            <div v-else-if="gameStats.gameCurrentTurn < (gameStats.gameTurns * 7 / 10)">
                                 <p v-bind:style="topText">A game is currently under way!</p>
                             </div>
-                            <div v-else-if="gameStats.gameCurrentTurn < (gameStats.gameTurns * 190 / 200)">
+                            <div v-else-if="gameStats.gameCurrentTurn < (gameStats.gameTurns * 8 / 10)">
+                                <p v-bind:style="topText">A game is currently in its final chapter!</p>
+                            </div>
+                            <div v-else-if="gameStats.gameCurrentTurn < (gameStats.gameTurns * 9 / 10)">
+                                <p v-bind:style="topText">A game is currently in its final inning!</p>
+                            </div>
+                            <div v-else-if="gameStats.gameCurrentTurn < (gameStats.gameTurns * 19 / 20)">
                                 <p v-bind:style="topText">A game is currently approaching its end!</p>
                             </div>
                             <div v-else-if="gameStats.gameCurrentTurn < (gameStats.gameTurns * 195 / 200)">
@@ -1992,7 +1998,7 @@
                         <p v-if="gameStats.startDate && gameStats.endDate" v-bind:style="topText">The game {{ Number(gameStats.gameCurrentTurn) == 0 ? "will begin" : "began" }} on {{ formatDate(gameStats.startDate) }} and {{ Number(gameStats.gameCurrentTurn) < Number(gameStats.gameTurns) ? "will end" : "ended" }} on {{ formatDate(gameStats.endDate) }}.</p>
 
                         <div v-if="gameStats.gameCurrentTurn > 0 && (gameStats.gameTurns - gameStats.gameCurrentTurn) > 0" v-bind:style="topText">
-                            <p>The kingdom with the most gold after the last turn is the winner!</p>
+                            <p>The kingdom with the most gold on the last turn is the winner and takes the Ethereum prize (see above!)</p>
                         </div>
 
                         <div id="notInGame" v-if="gameStats.gameTurns != checkingBlockchainString && foundAccounts.length > 0 && isInGame != undefined && !isInGame && ((gameStats.gameTurns - gameStats.gameCurrentTurn) != 0)" v-bind:style="notInGameStyle">
@@ -2198,7 +2204,7 @@
                                                             <p>Provides {{ gameValues.spyAttack }} attack power each.</p>
                                                             <p>Spies are impossible to kill.</p>
                                                             <p>Requires a hovel to live in.</p>
-                                                            <p>Recruiting spies does not use an action.</p>
+                                                            <p>Recruiting spies does not use an action, but you must have at least 1!</p>
                                                         </div>
                                                     </div>
                                                 </td>
@@ -2301,9 +2307,9 @@
                                                             <p>A defence power is calculated for the defending kingdom as the attack power for its army plus the defence power of its barracks and castles.</p>
                                                             <p>If your attack power is greater than your opponent's defence power, you will win the attack and take a fraction of your opponent's gold!</p>
                                                             <img id="icon" src="./coinbag.png" alt="Coin Bag">
-                                                            <p>Soldiers, wizards, and dragons may be lost on both sides during the battle. Only the attacker's losses are reported.</p>
+                                                            <p>Soldiers, wizards, and dragons may be lost on both sides during the battle. Only the attacker's losses are reported in the public event log.</p>
                                                             <p>💀</p>
-                                                            <p>(Gold taken is proportional to the closeness of the battle. If the battle is close, huge casualties and large portions of gold may be stolan.)</p>                                                           
+                                                            <p>(Gold taken is proportional to the closeness of the battle. If the battle is close, huge casualties and large portions of gold may be taken.)</p>                                                           
                                                         </div>
                                                     </div>
                                                 </td>
@@ -2317,7 +2323,7 @@
                                                             <p>Contract your spies to discover information about another player's kingdom!</p>
                                                             <p>👀</p>
                                                             <p>If you have more than half the number of spies your opponent has, everyone will receive a piece of information about your opponent's kingdom in the public event log.</p>
-                                                            <p>Using Espionage does not use an action.</p>
+                                                            <p>Using espionage does not use an action, but you must have at least 1!</p>
                                                         </div>
                                                     </div>
                                                 </td>
@@ -2330,6 +2336,7 @@
                                                             <p>Send in your trained dragons to destroy a fraction of an enemy's kingdom!</p>
                                                             <p>🐲</p>
                                                             <p>If you have more dragons than your opponent has castles plus dragons, some of your opponent's mining camps, banks, and hovels may< be burned to the ground.</p>
+                                                            <p>Dragons may be lost on both sides during a sabotage.</p>
                                                         </div>
                                                     </div>
                                                 </td>
@@ -2467,7 +2474,7 @@
                             <br>
                         </div>
                         
-                        <p v-bind:style="bottomText">Please see the <a href="./README.md" target="_blank" v-bind:style="hyperlink">README.md</a> for an overview of the game. Crypto Kingdoms is open source. Source code is available for the <a href="./CryptoKingdoms.sol" target="_blank" v-bind:style="hyperlink">Ethereum Solidity Smart Contract</a> and this website client is self-contained.</p>
+                        <p v-bind:style="bottomText">Please see the <a href="https://github.com/CryptoKingdoms/Game8" target="_blank" v-bind:style="hyperlink">README.md</a> for an overview of the game. Crypto Kingdoms is open source. Source code is available for the <a href="https://etherscan.io/address/0x89f4d59797199b84447f8a2f7eceb0bef962a9d6#code" target="_blank" v-bind:style="hyperlink">Ethereum Solidity Smart Contract</a> and this website client is self-contained.</p>
 
                         <div v-if="networkVersion == 3 && foundAccounts.length > 0 && foundAccounts[0].balance == 0">
                             <p>You have no Ethereum! You can get free test Ethereum from the <a href="http://faucet.ropsten.be:3001" target="_blank" v-bind:style="hyperlink">Ethereum Ropsten Faucet</a>!</p>
@@ -2480,8 +2487,7 @@
 
                     <div>
                         <p v-bind:style="bottomText">{{ helpText }} <a href="mailto:admin@cryptokingdoms.org" target="_top" v-bind:style="hyperlink">admin@cryptokingdoms.org</a></p>
-                        <p v-bind:style="bottomText">CryptoKingdoms.org does not collect or store any information.<span v-if="gameStats.gameCurrentTurn > (gameStats.gameTurns * 7 / 10) && 
-                                                                                                                              gameStats.gameCurrentTurn < (gameStats.gameTurns * 8 / 10) "> No cookies. Nothing.</span></p>
+                        <p v-bind:style="bottomText">CryptoKingdoms.org does not collect or store any information.<span v-if="gameStats.gameCurrentTurn > (gameStats.gameTurns * 7 / 10) && gameStats.gameCurrentTurn < (gameStats.gameTurns * 8 / 10) "> No cookies. Nothing.</span></p>
                     </div>
 
                     <!-- Space for fixed position networkStatus div box. -->
@@ -2891,7 +2897,6 @@
                         var now = new Date().getTime()
                         var timeUntilNextTurn = nextTurnDate - now + 60
                         if (timeUntilNextTurn < 1) {
-                            app.nextTurnCountdown = "Somebody get a message to James and tell him to run the fucking turn function!"
                             app.nextTurnCountdown = "Imminent"
                         }
                         else {  
@@ -3476,6 +3481,10 @@
                         {
                             alert("You need " + gameValues.espionageCost + " gold to espionage!")
                         }
+                        else if (app.playerStats.actions == 0)
+                        {
+                            alert(noActionsText)
+                        }
                         else
                         {
                             alert("Select a kingdom to espionage!")
@@ -3624,8 +3633,7 @@
                             messageText = messageText.charAt(0).toUpperCase() + messageText.slice(1)
                             cryptoKingdoms.message(messageText,
                                                    { from: app.foundAccounts[0].address,
-                                                      gas: defaultGas,
-                                                    value: web3.toWei(0.01, "ether") },
+                                                      gas: defaultGas },
                                                    function(error, transactionHash) {
                                                        if (error) {
                                                            app.transactionError(error)
@@ -3870,7 +3878,7 @@
                                                 case 10: eventText += "never returned."; break;
                                                 case 11: eventText += "were turned into stone."; break;
                                                 case 12: eventText += "disappeared leaving nothing but their cloaks which slowly fluttered down to the ground..."; break;
-                                                case 13: eventText += "banded into a group and, with great "; break;
+                                                case 13: eventText += "banded together and left in search of a greater cause..."; break;
                                                 case 14: eventText += "dared to fight their opponent's fortress with the might of a spell conjoured from words long remembered but alas their time was at an end."; break;
                                                 case 15: eventText += "confidently conjoured a water spirit to assist them in their ways. After the battle had ended the water spirit beckoned them closer and took them to another world."; break;
                                                 default: eventText += "were killed."; break;
@@ -3932,15 +3940,16 @@
                                         }
                                         else if (attackingArmyDragonDeaths < 10) {
                                             eventText += app.formatEnglishNumber(attackingArmyDragonDeaths, shouldCapitalize = true) + " dragons "
-                                            switch (((attackingArmySoldierDeaths << 4) + attackingArmyWizardDeaths + attackingArmyDragonDeaths) % 16 ) {
+                                            switch (((attackingArmySoldierDeaths << 4) + attackingArmyWizardDeaths + attackingArmyDragonDeaths) % 19 ) {
                                                 case 1: eventText += "took off into the clouds!"; deathEmoji = "☁️"; break;
                                                 case 2: eventText += "were blown away into the clouds!"; deathEmoji = "☁️"; break;
-                                                case 3: eventText += "took to the skies, to be replaced with clouds!"; deathEmoji = "☁️ ☁️ ☁️"; break;
+                                                case 3: eventText += "took to the skies and were replaced with clouds!"; deathEmoji = "☁️ ☁️ ☁️"; break;
                                                 case 4: eventText += "soared high into the sky and above the clouds!"; deathEmoji = "☁️☁️☁️"; break;
                                                 case 5: eventText += "ascended into the clouds!"; deathEmoji = "☁️"; break;
                                                 case 6: eventText += "were never to be seen again, after being hidden by the clouds!"; deathEmoji = "☁️"; break;
-                                                case 7: eventText += "have not yet been seen for the clouds!"; deathEmoji = "☁️☁️"; break;
-                                                default: eventText += "was lost along the way."; break;
+                                                case 7: eventText += "were never to be seen again after disappearing into the clouds!"; deathEmoji = "☁️☁️"; break;
+                                                case 8: eventText += "were blown away by a gale force wind!"; deathEmoji = ""; break;
+                                                default: eventText += "were lost along the way."; break;
                                             }
                                         }
                                         else {
@@ -3957,7 +3966,7 @@
                                                 case 9: eventText += "were knocked back beyond the event horizon after an encounter with the might of a dark force unbeknown."; break;
                                                 case 10: eventText += "were blown away by a freak tornado."; break;
                                                 case 11: eventText += "flew too close to the sun and were scorched to death"; break;
-                                                case 12: eventText += "were scorched after flying too close to the sun and fell out of the sky to their deaths."; break;
+                                                case 12: eventText += "were hit by an onslaught of arrows and fell out of the sky to their deaths."; break;
                                                 case 13: eventText += "were pulled into a summoned tornado and hurled away."; break;
                                                 case 14: eventText += "were unable to penetrate the defences of the target kingdom and were killed."; break;
                                                 default: eventText += "were lost along the way!"; break;
@@ -4284,7 +4293,7 @@
             if (web3)
             {
                 // Main Network
-                cryptoKingdomsContractAddress = "0x4aac820f9a54bb934cbad8f81a90b8cd22dd032f"
+                cryptoKingdomsContractAddress = "0x89f4d59797199b84447f8A2F7eceb0BEf962A9d6"
 
                 web3.version.getNetwork(function(error, networkIdentifier) {
                     if (error) {
@@ -4307,7 +4316,7 @@
 
                         // Ropsten Test
                         if (networkIdentifier == "3") {
-                            cryptoKingdomsContractAddress = "0x4711DE3D73b868473075E56F588627173D2e3247"
+                            cryptoKingdomsContractAddress = "0xFff1bc74A6842aBDbd49fff16Bb4b58A85044458"
                         }
 
                         cryptoKingdomsContractAddress = web3.toChecksumAddress(cryptoKingdomsContractAddress)
