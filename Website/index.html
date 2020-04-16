@@ -1715,88 +1715,23 @@
 
             }
 
-            /* Other */
+            /* Army Unit Animations */
 
             .armyUnit {
-                margin: -4.5px;
-                font-size: 20px;
-
-                margin: -5.5px;
+                position: fixed;
                 font-size: 28px;
-
+                width: 50%;
+                margin: -2.7%;
                 margin-left: 100%;
-                /*margin-left: -87%;*/
+                margin-top: -31px;
             }
 
-            @keyframes armyUnitMoveIn {
-                0% {
-                    margin-left: 105%;
-                }
-                100% {
-                    margin-left: -95%;
-                }
-            }
-
-            @keyframes armyUnitMoveOut {
-                0% {
-                    margin-left: -95%;
-                }
-                100% {
-                    margin-left: 105%;
-                }
-            }
-
-            @keyframes armyUnitMoveInLeft {
-                0% {
-                    margin-left: -105%;
-                }
-                100% {
-                    margin-left: -95%;
-                }
-            }
-
-            @keyframes armyUnitMoveOutLeft {
-                0% {
-                    margin-left: -95%;
-                }
-                100% {
-                    margin-left: -105%;
-                }
-            }
-
-            .armyUnitMoveIn {
-                animation: armyUnitMoveIn 10s;
-                -moz-animation: armyUnitMoveIn 10s;    /* Firefox */
-                -webkit-animation: armyUnitMoveIn 10s; /* Safari and Chrome */
-                -o-animation: armyUnitMoveIn 10s;      /* Opera */
+            .armyUnitMoveSneakInLeft {
+                animation: armyUnitMoveInLeft1Keyframes 10s;
+                -moz-animation: armyUnitMoveInLeft1Keyframes 10s;    /* Firefox */
+                -webkit-animation: armyUnitMoveInLeft1Keyframes 10s; /* Safari and Chrome */
+                -o-animation: armyUnitMoveInLeft1Keyframes 10s;      /* Opera */
                 animation-timing-function: ease-out;
-                animation-fill-mode: forwards;
-            }
-
-            .armyUnitMoveOut {
-                animation: armyUnitMoveOut 10s;
-                -moz-animation: armyUnitMoveOut 10s;    /* Firefox */
-                -webkit-animation: armyUnitMoveOut 10s; /* Safari and Chrome */
-                -o-animation: armyUnitMoveOut 10s;      /* Opera */
-                animation-timing-function: ease-in;
-                animation-fill-mode: forwards;
-            }
-
-            .armyUnitMoveInLeft {
-                animation: armyUnitMoveInLeft 10s;
-                -moz-animation: armyUnitMoveInLeft 10s;    /* Firefox */
-                -webkit-animation: armyUnitMoveInLeft 10s; /* Safari and Chrome */
-                -o-animation: armyUnitMoveInLeft 10s;      /* Opera */
-                animation-timing-function: ease-out;
-                animation-fill-mode: forwards;
-            }
-
-            .armyUnitMoveOutLeft {
-                animation: armyUnitMoveOutLeft 10s;
-                -moz-animation: armyUnitMoveOutLeft 10s;    /* Firefox */
-                -webkit-animation: armyUnitMoveOutLeft 10s; /* Safari and Chrome */
-                -o-animation: armyUnitMoveOutLeft 10s;      /* Opera */
-                animation-timing-function: ease-in;
                 animation-fill-mode: forwards;
             }
         </style>
@@ -1860,8 +1795,7 @@
 
                 <h2 class="tagline" v-bind:style="topText">A Strategy Game on the Ethereum Blockchain</h2>
 
-                <div class="fadeIn noEthereumConnectionMessage"
-                     v-if="!hasEthereum || typeof web3 === 'undefined'" v-bind:style="topText">
+                <div class="fadeIn noEthereumConnectionMessage" v-if="!hasEthereum || typeof web3 === 'undefined'" v-bind:style="topText">
                     <p v-bind:style="topText">You're not currently connected to the Ethereum network! You need to use an Ethereum enabled web browser to play Crypto Kingdoms!</p>
                     <p v-bind:style="topText">You can use Google Chrome if you install the <a href="https://metamask.io" target="_blank">MetaMask Chrome extension</a>.</p>
                     <p v-bind:style="topText">You can use Firefox if you install the <a href="https://addons.mozilla.org/en-GB/firefox/addon/ether-metamask" target="_blank">MetaMask Firefox extension</a>.</p>
@@ -1875,20 +1809,28 @@
                     <p v-bind:style="bottomText">The MetaMask Chrome extension (or mobile apps) will allow you to create an Ethereum wallet that will hold an Ethereum address that can be used to transfer Ethereum to and from any other Ethereum address. It also enables browsing of Ethereum-enabled websites such as Crypto Kingdoms which uses an Ethereum smart contract to host a multiplayer strategy game with a prize!</p>
                     <p v-bind:style="bottomText">You don't have to spend any real Ethereum to play the game - just switch your MetaMask extension or browser app to the Ropsten test network, request some free test Ethereum and join us on the test game! But first, get the Ethereum browser extension or mobile app from one of the links above!</p>
 <!--                     <p v-bind:style="bottomText">Click the banner below to go to the download page for MetaMask (for Google Chrome) or use the links above to download an Ethereum web browser app. Come back to this page once you've installed the extension or browser app!</p>
- -->                    <p v-bind:style="bottomText">{{ helpText }} <a href="mailto:admin@cryptokingdoms.org" target="_top">admin@cryptokingdoms.org</a></p>
+ -->                <p v-bind:style="bottomText">{{ helpText }} <a href="mailto:admin@cryptokingdoms.org" target="_top">admin@cryptokingdoms.org</a></p>
 <!--                     <a href="https://metamask.io" target="_blank"><img id="metaMaskBanner" src="https://github.com/MetaMask/faq/raw/master/images/download-metamask.png" alt="Download MetaMask Button"></a>
- -->                </div>
+ -->                
+                </div>
                 <div v-else-if="hasEthereum">
 
                     <div v-if="web3 && (gameStats.version == 0)">
                         <br>
                         <p>Couldn't find the active game! 😱</p>
                         <br>
-                        <p><strong>You need to switch to the "Main Ethereum Network" in MetaMask or in your app's settings.</strong></p>
-                        <br>
-                        <p>You may need to refresh the page or restart Google Chrome.</p>
-                        <br>
-                        <p>The blockchain may need a moment to sync.</p>
+                        <div v-if="networkVersion != 0">
+                            <p><strong>You need to switch to the "Main Ethereum Network" in MetaMask or in your app's settings.</strong></p>
+                            <br>
+                            <br>
+                            <br>
+                        </div>
+                        <div v-else>
+                            <p>You may need to refresh the page or restart Google Chrome.</p>
+                            <br>
+                            <p>The blockchain may need a moment to sync.</p>
+                            <br>
+                        </div>
                         <br><br><br><br>
                     </div>
                     <div v-else class="hidden game">
@@ -1899,7 +1841,7 @@
                             <div v-if="gameStats.gameCurrentTurn <= 0">
                                 <p v-bind:style="topText">A new game is about to begin!</p>
                             </div>
-                            <div v-else-if="gameStats.gameCurrentTurn < (gameStats.gameTurns / 3)">
+                            <div v-else-if="gameStats.gameCurrentTurn < (gameStats.gameTurns * 3 / 10)">
                                 <p v-bind:style="topText">A new game has just begun!</p>
                             </div>
                             <div v-else-if="gameStats.gameCurrentTurn == (gameStats.gameTurns / 2)">
@@ -1929,7 +1871,7 @@
                             <div v-else-if="0 >= (gameStats.gameTurns - gameStats.gameCurrentTurn)">
                                 <p>The game has ended! Thank you for playing!</p>
                             <div v-else>
-                                <p v-bind:style="topText">Unknown game state. Please contact support.</p>
+                                <p v-bind:style="topText">There's currently a game in progress!</p>
                             </div>
                         </div>
                         <div v-else>
@@ -1968,10 +1910,6 @@
                                     <td><p>{{ gameStats.numberPlayers }}</p></td>
                                 </tr>
                                 <tr>
-                                    <td class="gameStat"><p>Winner Prize (Ethereum)</p></td>
-                                    <td><p>{{ isNaN(gameStats.totalPrizePool) ? checkingBlockchainString : Math.floor(web3.fromWei(gameStats.totalPrizePool, "ether") * 1000) / 1000 }}</p></td>
-                                </tr>
-                                <tr>
                                     <td class="gameStat"><p>Total Gold in the Game</p></td>
                                     <td><p>{{ formatThousands(gameStats.totalGold) }}</p></td>
                                 </tr>
@@ -1991,6 +1929,10 @@
                                     <td class="gameStat"><p>Next Turn (Minutes)</p></td>
                                     <td><p>{{ nextTurnCountdown }}</p></td>
                                 </tr>
+                                <tr>
+                                    <td class="gameStat"><p>Winner Prize (Ethereum)</p></td>
+                                    <td><p>{{ isNaN(gameStats.totalPrizePool) ? checkingBlockchainString : Math.floor(web3.fromWei(gameStats.totalPrizePool, "ether") * 1000) / 1000 }}</p></td>
+                                </tr>
                             </table>
                         </div>
 
@@ -1998,14 +1940,14 @@
                         <p v-if="gameStats.startDate && gameStats.endDate" v-bind:style="topText">The game {{ Number(gameStats.gameCurrentTurn) == 0 ? "will begin" : "began" }} on {{ formatDate(gameStats.startDate) }} and {{ Number(gameStats.gameCurrentTurn) < Number(gameStats.gameTurns) ? "will end" : "ended" }} on {{ formatDate(gameStats.endDate) }}.</p>
 
                         <div v-if="gameStats.gameCurrentTurn > 0 && (gameStats.gameTurns - gameStats.gameCurrentTurn) > 0" v-bind:style="topText">
-                            <p>The kingdom with the most gold on the last turn is the winner and takes the Ethereum prize (see above!)</p>
+                            <p>The kingdom with the most gold on the last turn is the winner and takes the Ethereum prize!</p>
                         </div>
 
                         <div id="notInGame" v-if="gameStats.gameTurns != checkingBlockchainString && foundAccounts.length > 0 && isInGame != undefined && !isInGame && ((gameStats.gameTurns - gameStats.gameCurrentTurn) != 0)" v-bind:style="notInGameStyle">
                             <p v-bind:style="topText">You're not currently in the game!</p>
                             
                             <div v-if="networkVersion == 3">
-                                <p v-bind:style="topText">On the Ropsten test network you can get free test Ethereum from the <a href="http://faucet.ropsten.be" target="_blank" v-bind:class="hyperlink">Ethereum Ropsten Faucet</a> website.</p>
+                                <p v-bind:style="topText">On the Ropsten test network you can get free test Ethereum from the <a href="https://faucet.ropsten.be" target="_blank" v-bind:class="hyperlink">Ethereum Ropsten Faucet</a> website.</p>
                             </div>
 
                             <p class="newKingdomName threeSecondTransition" v-bind:style="topText">
@@ -2014,10 +1956,10 @@
                                 <button id="joinGameButton" v-on:click="joinGame"><strong>Join Game</strong></button>
                             </p>
 
-                            <p v-bind:style="topText">It costs {{ Math.ceil((gameValues.gameJoinCostEther + gameValues.gameJoinTransactionCostEther) * 1000) / 1000 }} Ethereum (also called Ether or Eth) to join the game which pays for the prize pool and the game host's fees. Actions within the game have small transaction fees (average cost of 0.00007 Eth, which goes to Ethereum miners). The game will require at most {{ gameStats.gameTurns - 1}} actions to secure a victory, so it will cost <strong>{{ Math.floor((gameValues.gameJoinCostEther + gameValues.gameJoinTransactionCostEther + 0.00007 * (gameStats.gameTurns - 1)) * 1000) / 1000 }}</strong> Eth to play a full game in total.</p>
+                            <p v-bind:style="topText">It costs {{ Math.ceil((gameValues.gameJoinCostEther + gameValues.gameJoinTransactionCostEther) * 1000) / 1000 }} Ethereum (also called Ether or Eth) to join the game which pays for the prize pool and the game host's fees. Actions within the game have small transaction fees (average cost of {{ gameStats.averageTransactionCost }} Eth, which goes to Ethereum miners). The game will require at most {{ gameStats.gameTurns - 1}} actions to secure a victory, so it will cost <strong>{{ Math.floor((gameValues.gameJoinCostEther + gameValues.gameJoinTransactionCostEther + gameStats.averageTransactionCost * (gameStats.gameTurns - 1)) * 1000) / 1000 }}</strong> Eth to play a full game in total.</p>
                             
                             <div v-if="networkVersion == 3 && (gameStats.gameCurrentTurn == 0 && !isInGame)">
-                                <p v-bind:style="topText">You're on the Ropsten test network! Get free test Ethereum from the <a href="http://faucet.ropsten.be:3001" target="_blank" v-bind:class="hyperlink">Ethereum Ropsten Faucet</a>!</p>
+                                <p v-bind:style="topText">You're on the Ropsten test network! Get free test Ethereum from the <a href="https://faucet.ropsten.be:3001" target="_blank" v-bind:class="hyperlink">Ethereum Ropsten Faucet</a>!</p>
                             </div>
                         </div>
                         <div v-else-if="foundAccounts.length > 0 && gameStats.gameCurrentTurn > 0">
@@ -2335,7 +2277,7 @@
                                                         <div v-bind:style="tooltip" class="sabotageInfoPanel">
                                                             <p>Send in your trained dragons to destroy a fraction of an enemy's kingdom!</p>
                                                             <p>🐲</p>
-                                                            <p>If you have more dragons than your opponent has castles plus dragons, some of your opponent's mining camps, banks, and hovels may< be burned to the ground.</p>
+                                                            <p>If you have more dragons than your opponent has castles plus dragons, some of your opponent's mining camps, banks, and hovels may be burned to the ground.</p>
                                                             <p>Dragons may be lost on both sides during a sabotage.</p>
                                                         </div>
                                                     </div>
@@ -2477,10 +2419,10 @@
                         <p v-bind:style="bottomText">Please see the <a href="https://github.com/CryptoKingdoms/Game8" target="_blank" v-bind:style="hyperlink">README.md</a> for an overview of the game. Crypto Kingdoms is open source. Source code is available for the <a href="https://etherscan.io/address/0x89f4d59797199b84447f8a2f7eceb0bef962a9d6#code" target="_blank" v-bind:style="hyperlink">Ethereum Solidity Smart Contract</a> and this website client is self-contained.</p>
 
                         <div v-if="networkVersion == 3 && foundAccounts.length > 0 && foundAccounts[0].balance == 0">
-                            <p>You have no Ethereum! You can get free test Ethereum from the <a href="http://faucet.ropsten.be:3001" target="_blank" v-bind:style="hyperlink">Ethereum Ropsten Faucet</a>!</p>
+                            <p>You have no Ethereum! You can get free test Ethereum from the <a href="https://faucet.ropsten.be:3001" target="_blank" v-bind:style="hyperlink">Ethereum Ropsten Faucet</a>!</p>
                         </div>
                             <div v-else-if="networkVersion == 3 && foundAccounts.length > 0 && foundAccounts[0].balance < 0.1">
-                                <p>You're running low on Ethereum! You can get free test Ethereum from the <a href="http://faucet.ropsten.be:3001" target="_blank" v-bind:style="hyperlink">Ethereum Ropsten Faucet</a>!</p>
+                                <p>You're running low on Ethereum! You can get free test Ethereum from the <a href="https://faucet.ropsten.be:3001" target="_blank" v-bind:style="hyperlink">Ethereum Ropsten Faucet</a>!</p>
                             </div> 
                         </div>
                     </div>
@@ -2494,9 +2436,7 @@
                     <br><br><br><br><br><br>
 
                     <div class="hidden" v-bind:class="{ networkStatus : (gameStats.version > 0) }">
-                        <div class="unitPlatform unselectable">
-                            <!-- <p class="armyUnit armyUnitAnimation">🧙‍♂️</p> -->
-                            <p id="wizardUnit" class="armyUnit">🧙‍♂️</p>
+                        <div id= "armyUnits" class="unitPlatform unselectable">
                         </div>
                         <div v-if="foundAccounts.length == 0" class="noAccountsSection">
                             <p class="unlockMetaMask">No Ethereum accounts found.</p>
@@ -2527,10 +2467,9 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
 
-            </div>
+            </div> 
 
         </div>
         
@@ -2643,11 +2582,11 @@
                     eventMessage: "",
                     eventMessages: [],
                     foundAccounts: [],
-                    gameStats: { "numberPlayers" : 0 },
+                    gameStats: { "averageTransactionCost" : 0.00015, "numberPlayers" : 0 },
                     gameValues: gameValues,
                     goldPerTurn: 0,
                     hasEthereum: hasEthereum,
-                    helpText: "If you need any help, would like to send feedback, or sign up to the mailing list - please email!",
+                    helpText: "If you need any help, would like to send feedback, or to sign up to the mailing list - please email!",
                     hyperlink: { "color" : hyperlinkColor },
                     isInGame: false,
                     kingdomListType: "",
@@ -2659,8 +2598,11 @@
                     nextTurnCountdown: "",
                     notInGameStyle: {},
                     numberAttackingSoldiers: 0,
+                    latestCasualties: [0, 0, 0, 0],
                     playerStats: {},
                     players: [],
+                    previousAnimateArmyUnitsArgs: { "direction" : null,
+                                                    "numberOfSoldiers" : 0, "numberOfSpies" : 0, "numberOfWizards" : 0, "numberOfDragons" : 0 },
                     randomValue: Math.random(),
                     showTurnButton: window.location.href.includes("turn"),
                     soldiersPerTurn: 0,
@@ -2672,7 +2614,7 @@
                             "It is intentionally hard to remember when an action is available to give all players a chance to take actions.",
                             "Crypto Kingdoms is a slow-placed game to keep it fair and balanced.",
                             "Don't worry if you miss a few days during the game, just don't miss the whole thing!",
-                            "Sometimes you need to manually \"EDIT\" a transaction fee when making an action (in the transaction window that appears). If the transaction fee is set to 0 the transaction will fail." ],
+                            "Sometimes you need to manually \"EDIT\" a transaction fee when making an action (in the transaction window that appears). If the transaction fee is set to 0 the transaction will fail!" ],
                     tipsFirstHalf: [ "Don't forget to come back!" ],
                     tipsSecondHalf: [ "" ],
                     tooltip: {},
@@ -2756,7 +2698,7 @@
                         hours = (date.getHours() == 12) ? 12 : (date.getHours() % 12)
                         minutes = date.getMinutes()
                         amPm = (date.getHours() < 12) ? "am" : "pm"
-                        isInTheMiddleOfTheNight = (date.getHours() == 0 || date.getHours() == 1)
+                        isInTheMiddleOfTheNight = (date.getHours() == 0 || date.getHours() == 1 || date.getHours() == 2)
                         if (isInTheMiddleOfTheNight) {
                             date.setDate(date.getDate() - 1)
                         }
@@ -2866,7 +2808,7 @@
                         if (app.checkingBlockchain["updateGameStats"] !== true) {
                             app.checkingBlockchain["updateGameStats"] = true
                             cryptoKingdoms.gameStats(function(error, gameStats) {
-                                                        app.checkingBlockchain["updateGameStats"] = false
+                                                         app.checkingBlockchain["updateGameStats"] = false
                                                          if (error) {
                                                              log("updateGameStats error", error)
                                                          }
@@ -2876,13 +2818,38 @@
                                                                  Vue.set(app.gameStats, gameStatKey, Number(gameStats[i]))
                                                              })
                                                              Vue.set(app.gameStats, "startDate", new Date(app.gameStats.gameStartTimeSeconds * 1000))
-                                                             Vue.set(app.gameStats, "endDate", new Date((Number(app.gameStats.gameStartTimeSeconds) + Number(app.gameStats.gameDurationSeconds)) * 1000))
+                                                             Vue.set(app.gameStats, "endDate", new Date((Number(app.gameStats.gameStartTimeSeconds)
+                                                                                                        + Number(app.gameStats.gameDurationSeconds)) * 1000))
 
                                                              app.updateListOfPlayers()
                                                              app.updateNextTurnTime()
                                                          }
                                                      })
                         }
+
+                        const getJSON = async url => {
+                            try {
+                                const response = await fetch(url)
+                                if (!response.ok) {
+                                    throw new Error(response.statusText)
+                                }
+                                const data = await response.json()
+                                return data
+                            }
+                            catch(error) {
+                                return error;
+                            }
+                        }
+
+                        // var etherscanAPIKey = "FXSZ6QG3AFX91NTUCYSRWHYVJYP8CI9FFW"
+                        // var transactionsRequest = "https://api.etherscan.io/api?module=account&action=txlist&address=" + cryptoKingdomsContractAddress
+                        // transactionsRequest += "&apikey=" + etherscanAPIKey
+                        // console.log("Making request to " + transactionsRequest + " for transactions...")
+                        // getJSON(transactionsRequest).then(data => {
+                        //     console.log(data.result)
+                        // }).catch(error => {
+                        //     console.error(error)
+                        // });
                     },
                     updateNextTurnTime() {
                         var isWaitingForGameToStart = app.gameStats.gameCurrentTurn == 0
@@ -2897,7 +2864,7 @@
                         var now = new Date().getTime()
                         var timeUntilNextTurn = nextTurnDate - now + 60
                         if (timeUntilNextTurn < 1) {
-                            app.nextTurnCountdown = "Imminent"
+                            app.nextTurnCountdown = "Waiting for network to process turn..."
                         }
                         else {  
                             var days = Math.floor(timeUntilNextTurn / (1000 * 60 * 60 * 24))
@@ -2909,7 +2876,12 @@
                     },
                     formatNextTurnTime(useWords, days, hours, minutes, seconds) {
                         formattedTime = ""
-                        if (app.gameStats.gameCurrentTurn == 0) {
+                        if (app.gameStats.gameCurrentTurn != 0)
+                        {
+                            formattedTime += hours * 60 + minutes
+                        }
+                        else
+                        {
                             if (useWords)
                             {
                                 if (days > 0) {
@@ -2939,9 +2911,6 @@
                                 if (days > 0) formattedTime += padNumber(days) + ":"
                                 formattedTime += padNumber(hours) + ":" + padNumber(minutes) + ":" + padNumber(seconds)
                             }
-                        }
-                        else {
-                            formattedTime += hours * 60 + minutes
                         }
                         return formattedTime
                     },
@@ -3020,8 +2989,7 @@
                     },
                     calculateAttackPower() {
                         app.attackPower = 0
-                        if (app.isInGame)
-                        {
+                        if (app.isInGame) {
                             app.attackPower += app.playerStats.soldiers * gameValues.soldierAttack
                                              + app.playerStats.spies    * gameValues.spyAttack
                                              + app.playerStats.wizards  * gameValues.wizardAttack
@@ -3031,8 +2999,7 @@
                     },
                     calculateDefencePower() {
                         app.defencePower = 0
-                        if (app.isInGame)
-                        {
+                        if (app.isInGame) {
                             app.defencePower += app.playerStats.soldiers    * gameValues.soldierAttack
                                               + app.playerStats.spies       * gameValues.spyAttack
                                               + app.playerStats.wizards     * gameValues.wizardAttack
@@ -3056,8 +3023,7 @@
                     },
                     calculateNetWorth() {
                         app.netWorth = 0
-                        if (app.isInGame)
-                        {
+                        if (app.isInGame) {
                             app.netWorth += app.playerStats.gold
                                           + app.playerStats.soldiers    * gameValues.soldierCost
                                           + app.playerStats.spies       * gameValues.spyCost
@@ -3083,8 +3049,7 @@
                     },
                     copyStats() {
                         var touchDevice = (navigator.maxTouchPoints || 'ontouchstart' in document.documentElement)
-                        if (!touchDevice)
-                        {
+                        if (!touchDevice) { // Want to allow tooltips on touch devices.
                             app.copyToClipboard(document.getElementById("playerStatsTable").innerHTML)
                         }
                     },
@@ -3093,8 +3058,8 @@
                         app.copyToClipboard(address, "account.address")
                     },
                     balanceSelected(balance) {
-                        console.log("Selected address balance", address)
-                        app.copyToClipboard(address, "account.balance")
+                        console.log("Selected address balance", balance)
+                        app.copyToClipboard(balance, "account.balance")
                     },
                     cancelAllSelection() {
                         console.log("Cancelling selection.")
@@ -3117,8 +3082,7 @@
                         {
                             log("Requesting to join game as " + app.newPlayerName + " from address " + app.foundAccounts[0].address + "...")
                             cryptoKingdoms.joinGame(app.newPlayerName,
-                                                    { from: app.foundAccounts[0].address,
-                                                       gas: 2500000,
+                                                    { from: app.foundAccounts[0].address, gas: 500000,
                                                      value: web3.toWei(app.gameValues.gameJoinCostEther, "ether") },
                                                     function(error, transactionHash) {
                                                         if (error) {
@@ -3136,7 +3100,6 @@
                                                             })
                                                         }
                                                     })
-                            document.getElementById("notInGame")
                         }
                     },
                     recruitSoldiers() {
@@ -3156,7 +3119,7 @@
                             else
                             {
                                 cryptoKingdoms.recruitSoldiers(numberSoldiers,
-                                                               { from: app.foundAccounts[0].address, gas: 65555 },
+                                                               { from: app.foundAccounts[0].address, gas: 50000 },
                                                                function(error, transactionHash) {
                                                                     if (error) {
                                                                         app.transactionError(error)
@@ -3167,6 +3130,7 @@
                                                                         app.setWaitingMessage("Recruit Soldiers")
                                                                         app.transactionReceiptPoll(transactionHash, function() {
                                                                             app.updatePlayerStats()
+                                                                            app.animateArmyUnits(direction = "left", numberSoldiers, 0, 0, 0)
                                                                         })
                                                                     }
                                                                 })
@@ -3201,6 +3165,7 @@
                                                                      app.setWaitingMessage("Recruit Spies")
                                                                      app.transactionReceiptPoll(transactionHash, function() {
                                                                          app.updatePlayerStats()
+                                                                         app.animateArmyUnits(direction = "left", 0, numberSpies, 0, 0)
                                                                      })
                                                                  }
                                                             })
@@ -3239,6 +3204,7 @@
                                                                      app.setWaitingMessage("Summon Wizards")
                                                                      app.transactionReceiptPoll(transactionHash, function() {
                                                                          app.updatePlayerStats()
+                                                                         app.animateArmyUnits(direction = "left", 0, 0, numberWizards, 0)
                                                                      })
                                                                  }
                                                              })
@@ -3271,6 +3237,7 @@
                                                                     app.setWaitingMessage("Train Dragons")
                                                                     app.transactionReceiptPoll(transactionHash, function() {
                                                                         app.updatePlayerStats()
+                                                                        app.animateArmyUnits(direction = "left", 0, 0, 0, numberDragons)
                                                                     })
                                                                 }
                                                             })
@@ -3285,12 +3252,12 @@
                             if (app.playerStats.gold < numberHovels * app.gameValues.hovelCost)
                             {
                                 var requiredGold = numberHovels * app.gameValues.hovelCost - app.playerStats.gold
-                                alert("You need " + app.formatThousands(requiredGold) + " more gold for " + numberHovels + " hovels!")
+                                alert("You need " + app.formatThousands(requiredGold) + " more gold for " + numberHovels + " more hovel" + (numberHovels == 1 ? " " : "s") + "!")
                             }
                             else
                             {
                                 cryptoKingdoms.buildHovels(numberHovels,
-                                                           { from: app.foundAccounts[0].address, gas: 55000 },
+                                                           { from: app.foundAccounts[0].address, gas: 50000 },
                                                            function(error, transactionHash) {
                                                                 if (error) {
                                                                     app.transactionError(error)
@@ -3323,7 +3290,7 @@
                             else
                             {
                                 cryptoKingdoms.buildMiningCamps(numberMiningCamps,
-                                                                { from: app.foundAccounts[0].address, gas: 66000 },
+                                                                { from: app.foundAccounts[0].address, gas: 50000 },
                                                                 function(error, transactionHash) {
                                                                     if (error) {
                                                                         app.transactionError(error)
@@ -3365,7 +3332,7 @@
                             else
                             {
                                 cryptoKingdoms.buildBanks(numberBanks,
-                                                          { from: app.foundAccounts[0].address, gas: 64500 },
+                                                          { from: app.foundAccounts[0].address, gas: 60000 },
                                                           function(error, transactionHash) {
                                                               if (error) {
                                                                   app.transactionError(error)
@@ -3399,7 +3366,7 @@
                             else
                             {
                                 cryptoKingdoms.buildBarracks(numberBarracks,
-                                                             { from: app.foundAccounts[0].address, gas: 64000 },
+                                                             { from: app.foundAccounts[0].address, gas: 50000 },
                                                              function(error, transactionHash) {
                                                                  if (error) {
                                                                      app.transactionError(error)
@@ -3433,7 +3400,7 @@
                             else
                             {
                                 cryptoKingdoms.buildCastles(numberCastles,
-                                                            { from: app.foundAccounts[0].address, gas: 65000 },
+                                                            { from: app.foundAccounts[0].address, gas: 50000 },
                                                             function(error, transactionHash) {
                                                                 if (error) {
                                                                     app.transactionError(error)
@@ -3526,8 +3493,12 @@
                             else
                             {
                                 document.getElementById("listOfKingdomsHeader").scrollIntoView({block: "start", behavior: "smooth"})
-                                cryptoKingdoms.attack(selectedKingdomIndex, app.numberAttackingSoldiers,
-                                                      { from: app.foundAccounts[0].address, gas: 200000 },
+                                var numberOfSoldiers = app.numberAttackingSoldiers
+                                var numberOfSpies = app.playerStats.spies
+                                var numberOfWizards = app.playerStats.wizards
+                                var numberOfDragons = app.playerStats.dragons
+                                cryptoKingdoms.attack(selectedKingdomIndex, numberOfSoldiers,
+                                                      { from: app.foundAccounts[0].address, gas: 100000 },
                                                       function(error, transactionHash) {
                                                           if (error) {
                                                               app.transactionError(error)
@@ -3537,7 +3508,13 @@
                                                               app.setWaitingMessage("Attack")
                                                               app.transactionReceiptPoll(transactionHash, function() {
                                                                   app.updatePlayerStats()
+                                                                  app.animateArmyUnits(direction = "left",
+                                                                    numberOfSoldiers - app.latestCasualties[0],
+                                                                    numberOfSpies - app.latestCasualties[1],
+                                                                    numberOfWizards - app.latestCasualties[2],
+                                                                    numberOfDragons - app.latestCasualties[3])
                                                               })
+                                                              app.animateArmyUnits(direction = "right", numberOfSoldiers, numberOfSpies, numberOfWizards, numberOfDragons)
                                                           }
                                                       })
                             }
@@ -3563,7 +3540,9 @@
                                                                  app.setWaitingMessage("Espionage")
                                                                  app.transactionReceiptPoll(transactionHash, function() {
                                                                      app.updatePlayerStats()
+                                                                     app.animateArmyUnits(direction = "left", 0, app.playerStats.spies, 0, 0)
                                                                  })
+                                                                 app.animateArmyUnits(direction = "right", 0, app.playerStats.spies, 0, 0)
                                                              }
                                                          })
                             }
@@ -3578,6 +3557,7 @@
                             else
                             {
                                 document.getElementById("listOfKingdomsHeader").scrollIntoView({block: "start", behavior: "smooth"})
+                                var numberOfDragons = app.playerStats.dragons
                                 cryptoKingdoms.sabotage(selectedKingdomIndex,
                                                         { from: app.foundAccounts[0].address, gas: 160321 },
                                                         function(error, transactionHash) {
@@ -3589,7 +3569,9 @@
                                                                 app.setWaitingMessage("Sabotage")
                                                                 app.transactionReceiptPoll(transactionHash, function() {
                                                                     app.updatePlayerStats()
+                                                                    app.animateArmyUnits(direction = "left", 0, 0, 0, numberOfDragons - app.latestCasualties[3])
                                                                 })
+                                                                app.animateArmyUnits(direction = "right", 0, 0, 0, numberOfDragons)
                                                             }
                                                         })
                             }
@@ -3598,7 +3580,7 @@
                         app.kingdomSelectionType = "none"
                     },
                     turn() {
-                        cryptoKingdoms.turn({ from: app.foundAccounts[0].address, gas: defaultGas * 10 },
+                        cryptoKingdoms.turn({ from: app.foundAccounts[0].address, gas: 50000 * app.players.length },
                                             function(error, transactionHash) {
                                                 if (error) {
                                                     app.transactionError(error)
@@ -3646,6 +3628,169 @@
                                                    })
                         }
                     },
+                    async animateArmyUnits(direction = "right", numberOfSoldiers = 0, numberOfSpies = 0, numberOfWizards = 0, numberOfDragons = 0) {
+                            if (!window.location.href.includes("alpha")) {
+                                return
+                            }
+
+                            var armyUnitsNode = document.getElementById("armyUnits")
+                            while (armyUnitsNode.hasChildNodes()) {  
+                                armyUnitsNode.removeChild(armyUnitsNode.firstChild)
+                            }
+
+                            numberOfSoldiers = Math.max(0, numberOfSoldiers)
+                            numberOfSpies = Math.max(0, numberOfSpies)
+                            numberOfWizards = Math.max(0, numberOfWizards)
+                            numberOfDragons = Math.max(0, numberOfDragons)
+
+                            var maxArmyUnitsCanAnimate = 10000
+                            var numberOfArmyUnits = numberOfSoldiers + numberOfSpies + numberOfWizards + numberOfDragons
+                            if (numberOfArmyUnits > maxArmyUnitsCanAnimate) {
+                                numberOfSoldiers *= maxArmyUnitsCanAnimate / numberOfArmyUnits
+                                numberOfSpies *= maxArmyUnitsCanAnimate / numberOfArmyUnits
+                                numberOfWizards *= maxArmyUnitsCanAnimate / numberOfArmyUnits
+                                numberOfDragons *= maxArmyUnitsCanAnimate / numberOfArmyUnits
+                                numberOfArmyUnits *= maxArmyUnitsCanAnimate / numberOfArmyUnits
+                            }
+
+                            var numberOfSoldiersReleased = 0
+                            var numberOfSpiesReleased = 0
+                            var numberOfWizardsReleased = 0
+                            var numberOfDragonsReleased = 0
+
+                            var optimisedNumberOfUnits = 0
+
+                            for (i = 1; i <= numberOfArmyUnits; i++)
+                            {
+                                var armyUnitNode = document.createElement("p")
+                                armyUnitNode.id = "armyUnit" + i
+
+                                if (direction === "right") {
+                                    armyUnitNode.className = "armyUnit armyUnitMoveInLeft" + i
+                                }
+                                else if (direction === "left") {
+                                    armyUnitNode.className = "armyUnit armyUnitMoveInRight" + i
+                                }
+
+                                var armyUnitText = "💂"
+                                var foundRandomUnitType = false
+                                var randomUnitType = Math.floor((Math.random() * 4) % 4)
+                                while (!foundRandomUnitType) {
+                                    switch (randomUnitType) {
+                                        case 0:
+                                            if (numberOfSoldiersReleased < numberOfSoldiers)
+                                            {
+                                                armyUnitText = Math.random() > 0.5 ? "💂" : (Math.random() > 0.5 ? "💂‍♀️" : "💂‍♂️")
+                                                numberOfSoldiersReleased += 1
+                                                foundRandomUnitType = true
+                                                break;
+                                            }
+                                        case 1:
+                                            if (numberOfSpiesReleased < numberOfSpies)
+                                            {
+                                                armyUnitText = Math.random() > 0.5 ? "🕵️" : (Math.random() > 0.5 ? "🕵️‍♀️" : "🕵️‍♂️")
+                                                numberOfSpiesReleased += 1
+                                                foundRandomUnitType = true
+                                                break;
+                                            }
+                                        case 2:
+                                            if (numberOfWizardsReleased < numberOfWizards)
+                                            {
+                                                armyUnitText = Math.random() > 0.5 ? "🧙‍♂️" : (Math.random() > 0.5 ? "🧙‍♀️" : "🧙‍♂️")
+                                                numberOfWizardsReleased += 1
+                                                foundRandomUnitType = true
+                                                break;
+                                            }
+                                        case 3:
+                                            if (numberOfDragonsReleased < numberOfDragons)
+                                            {
+                                                armyUnitText = "🐲"
+                                                numberOfDragonsReleased += 1
+                                                foundRandomUnitType = true
+                                                break;
+                                            }
+                                        default:
+                                            randomUnitType = 0
+                                            break;
+                                    }
+                                }
+
+                                var groupSize = 0
+                                if (Math.random() > 0.25)
+                                {
+                                    if (randomUnitType == 0)
+                                    {
+                                        groupSize = Math.random() > 0.5 ? 5 : 10
+                                        if ((numberOfSoldiers - numberOfSoldiersReleased) > groupSize)
+                                        {
+                                            armyUnitText += "  "
+                                            armyUnitText = armyUnitText.repeat(groupSize)
+                                            numberOfSoldiersReleased += groupSize - 1
+                                            optimisedNumberOfUnits += groupSize - 1
+                                            numberOfArmyUnits -= groupSize - 1
+                                        }
+                                    }
+                                    if (randomUnitType == 2)
+                                    {
+                                        groupSize = 2
+                                        if ((numberOfWizards - numberOfWizardsReleased) > groupSize)
+                                        {
+                                            armyUnitText += "  "
+                                            armyUnitText = armyUnitText.repeat(groupSize)
+                                            numberOfWizardsReleased += groupSize - 1
+                                            optimisedNumberOfUnits += groupSize - 1
+                                            numberOfArmyUnits -= groupSize - 1
+                                        }
+                                    }
+                                }
+
+                                var armyUnitTextNode = document.createTextNode(armyUnitText)
+                                armyUnitNode.appendChild(armyUnitTextNode)
+
+                                armyUnitsNode.appendChild(armyUnitNode)
+
+                                var moveInSpeedSeconds = 6
+
+                                var armyUnitMovementStyleId = "armyUnitMovementStyle" + i
+                                if (document.getElementById(armyUnitMovementStyleId) === null) {
+                                    var armyUnitMovementStyle = document.createElement("style")
+                                    armyUnitMovementStyle.type = "text/css"
+                                    armyUnitMovementStyle.id = armyUnitMovementStyleId
+                                    var offscreenMarginLeft = (-50 - (i * 0.75)) + "%"
+                                    var offscreenMarginRight = (150 + (i * 0.75)) + "%"
+                                    var moveInMarginLeft = (-10 - (i * 1.5) - (groupSize * 10)) + "%"
+                                    var moveInMarginRight = (110 + (i * 1.5) + (groupSize * 10)) + "%"
+                                    var moveOutRightSpeed = (9 + (0.1 * Math.random())) + "s"
+                                    var moveOutLeftSpeed = (9 + (0.1 * Math.random())) + "s"
+                                    armyUnitMovementStyle.innerHTML = "@keyframes armyUnitMoveInLeft" + i + "Keyframes { 0% { margin-left: " + offscreenMarginLeft + "; } 100% { margin-left: " + moveInMarginLeft + "; } }"
+                                    armyUnitMovementStyle.innerHTML += "@keyframes armyUnitMoveInRight" + i + "Keyframes { 0% { margin-left: " + offscreenMarginRight + "; } 100% { margin-left: " + moveInMarginRight + "; } }"
+                                    armyUnitMovementStyle.innerHTML += "@keyframes armyUnitMoveOutLeft" + i + "Keyframes { 0% { margin-left: " + moveInMarginLeft + "; } 100% { margin-left: " + offscreenMarginRight + "; } }"
+                                    armyUnitMovementStyle.innerHTML += "@keyframes armyUnitMoveOutRight" + i + "Keyframes { 0% { margin-left: " + moveInMarginRight + "; } 100% { margin-left: " + offscreenMarginLeft + "; } }"
+                                    armyUnitMovementStyle.innerHTML += " .armyUnitMoveInLeft" + i + " { animation: armyUnitMoveInLeft" + i + "Keyframes " + moveInSpeedSeconds + "s; -moz-animation: armyUnitMoveInLeft" + i + "Keyframes " + moveInSpeedSeconds + "s; -webkit-animation: armyUnitMoveInLeft" + i + "Keyframes " + moveInSpeedSeconds + "s; -o-animation: armyUnitMoveInLeft" + i + "Keyframes " + moveInSpeedSeconds + "s; animation-timing-function: ease-out; animation-fill-mode: forwards; }"
+                                    armyUnitMovementStyle.innerHTML += " .armyUnitMoveInRight" + i + " { animation: armyUnitMoveInRight" + i + "Keyframes " + moveInSpeedSeconds + "s; -moz-animation: armyUnitMoveInRight" + i + "Keyframes " + moveInSpeedSeconds + "s; -webkit-animation: armyUnitMoveInRight" + i + "Keyframes " + moveInSpeedSeconds + "s; -o-animation: armyUnitMoveInRight" + i + "Keyframes " + moveInSpeedSeconds + "s; animation-timing-function: ease-out; animation-fill-mode: forwards; }"
+                                    armyUnitMovementStyle.innerHTML += " .armyUnitMoveOutRight" + i + " { animation: armyUnitMoveOutRight" + i + "Keyframes " + moveOutRightSpeed + "; -moz-animation: armyUnitMoveOutRight" + i + "Keyframes " + moveOutRightSpeed + "; -webkit-animation: armyUnitMoveOutRight" + i + "Keyframes " + moveOutRightSpeed + "; -o-animation: armyUnitMoveOutRight" + i + "Keyframes " + moveOutRightSpeed + "; animation-timing-function: ease-in; animation-fill-mode: forwards; }"
+                                    armyUnitMovementStyle.innerHTML += " .armyUnitMoveOutLeft" + i + " { animation: armyUnitMoveOutLeft" + i + "Keyframes " + moveOutLeftSpeed + "; -moz-animation: armyUnitMoveOutLeft" + i + "Keyframes " + moveOutLeftSpeed + "; -webkit-animation: armyUnitMoveOutLeft" + i + "Keyframes " + moveOutLeftSpeed + "; -o-animation: armyUnitMoveOutLeft" + i + "Keyframes " + moveOutLeftSpeed + "; animation-timing-function: ease-in; animation-fill-mode: forwards; }"
+                                    document.getElementsByTagName('head')[0].appendChild(armyUnitMovementStyle)
+                                }
+                            }
+
+                            app.previousAnimateArmyUnitsArgs = { "direction" : "right", "numberOfSoldiers" : numberOfSoldiers, "numberOfSpies" : numberOfSpies, "numberOfWizards" : numberOfWizards, "numberOfDragons" : numberOfDragons }
+
+                            await app.sleep(moveInSpeedSeconds * 1000)
+
+                            for (i = 1; i <= numberOfArmyUnits; i++) {
+                                armyUnitNode = document.getElementById("armyUnit" + i)
+                                if (direction === "right") {
+                                    armyUnitNode.className = "armyUnit armyUnitMoveOutLeft" + i
+                                }
+                                else if (direction === "left") {
+                                    armyUnitNode.className = "armyUnit armyUnitMoveOutRight" + i
+                                }
+                                await app.sleep(50 + 300 * app.randomValue)
+                            }
+
+                            await app.sleep(7 * 1000)
+                    },
                     setupEventLog() {
                         var handledEventTransactionHashes = []
                         function handleEvent(error, event) {
@@ -3681,8 +3826,10 @@
                                     attackingArmySoldierDeaths = Number(event.args.soldierDeaths.c[0])
                                     attackingArmyWizardDeaths = Number(event.args.wizardDeaths.c[0])
                                     attackingArmyDragonDeaths = Number(event.args.dragonDeaths.c[0])
+                                    app.latestCasualties = [attackingArmySoldierDeaths, 0, attackingArmyWizardDeaths, attackingArmyDragonDeaths]
                                     goldExchanged = Number(event.args.goldExchanged.c[0])
-                                    goldEmoji = "💰"
+                                    let goldImage = "💰"
+                                    goldEmoji = goldImage
                                     deathEmoji = "💀"
                                     if (goldExchanged == 0 && attackingArmySoldierDeaths == 0)
                                     {
@@ -3712,15 +3859,15 @@
                                                                      - (attackingArmySoldierDeaths * gameValues.soldierCost)
                                                                       - (attackingArmyWizardDeaths * gameValues.wizardCost)
                                                                       - (attackingArmyDragonDeaths * gameValues.dragonCost)
-                                            if (goldExchangedMinusCosts >= 1000) goldEmoji += "💰"
-                                            if (goldExchangedMinusCosts >= 10000) goldEmoji += "💰"
-                                            if (goldExchangedMinusCosts >= 100000) goldEmoji += "💰"
-                                            if (goldExchangedMinusCosts >= 1000000) goldEmoji += "💰"
-                                            if (goldExchangedMinusCosts >= 10000000) goldEmoji += "💰"
-                                            if (goldExchangedMinusCosts >= 100000000) goldEmoji += "💰"
-                                            if (goldExchangedMinusCosts >= 1000000000) goldEmoji += "💰"
-                                            if (goldExchangedMinusCosts >= 10000000000) goldEmoji += "💰"
-                                            if (goldExchangedMinusCosts >= 100000000000) goldEmoji += "💰"
+                                            if (goldExchangedMinusCosts >= 1000) goldEmoji += goldImage
+                                            if (goldExchangedMinusCosts >= 10000) goldEmoji += goldImage
+                                            if (goldExchangedMinusCosts >= 100000) goldEmoji += goldImage
+                                            if (goldExchangedMinusCosts >= 1000000) goldEmoji += goldImage
+                                            if (goldExchangedMinusCosts >= 10000000) goldEmoji += goldImage
+                                            if (goldExchangedMinusCosts >= 100000000) goldEmoji += goldImage
+                                            if (goldExchangedMinusCosts >= 1000000000) goldEmoji += goldImage
+                                            if (goldExchangedMinusCosts >= 10000000000) goldEmoji += goldImage
+                                            if (goldExchangedMinusCosts >= 100000000000) goldEmoji += goldImage
                                             switch (goldExchanged % 7) {
                                                 case 1: theftWord = "a looting"; break;
                                                 case 2: theftWord = "a ransacking"; break;
@@ -4003,8 +4150,8 @@
                                                 case 1: eventText += "a measly"; break;
                                                 case 2: eventText += "a scanty"; break;
                                                 case 3: eventText += "an ungenerous"; break;
-                                                case 4: eventText += "an insufficient"; break;
-                                                case 5: eventText += "an inadequate"; break;
+                                                case 4: eventText += "an insufficient for pillaging"; break;
+                                                case 5: eventText += "the remains of a spending spree totaling"; break;
                                                 case 6: eventText += "a penny-pinching"; break;
                                                 case 7: eventText += "a tight-arsed"; break;
                                                 case 8: eventText += "a tight-assed"; break;
@@ -4013,7 +4160,7 @@
                                                 default: eventText += "a meager"; break;
                                             }
                                         else if (spyInfo < 500)
-                                            switch (spyInfo % 16) {
+                                            switch (spyInfo % 18) {
                                                 case 1: eventText += "a measly"; break;
                                                 case 2: eventText += "a scanty"; break;
                                                 case 3: eventText += "a generous"; break;
@@ -4023,6 +4170,8 @@
                                                 case 7: eventText += "a tight-fisted"; break;
                                                 case 8: eventText += "penurious"; break;
                                                 case 9: eventText += "a treasure chest packed with"; break;
+                                                case 10: eventText += "three treasure chests packed with"; break;
+                                                case 11: eventText += "a box containing"; break;
                                                 default: eventText += ""; break;
                                             }
                                         else if (spyInfo < 10000)
@@ -4093,6 +4242,8 @@
                                     sabotagedMiningCamps = Number(event.args.sabotagedMiningCamps.c[0])
                                     sabotagedBanks = Number(event.args.sabotagedBanks.c[0])
                                     dragonsKilled = Number(event.args.dragonsKilled.c[0])
+
+                                    app.latestCasualties = [0, 0, 0, dragonsKilled]
 
                                     emojis = "🏃‍♂🐉"
 
@@ -4292,9 +4443,6 @@
 
             if (web3)
             {
-                // Main Network
-                cryptoKingdomsContractAddress = "0x89f4d59797199b84447f8A2F7eceb0BEf962A9d6"
-
                 web3.version.getNetwork(function(error, networkIdentifier) {
                     if (error) {
                         log("getNetwork Error", error)
@@ -4314,9 +4462,12 @@
                             console.log("ethereum undefined")
                         }
 
-                        // Ropsten Test
+                        // Main Network Game Contract Address
+                        cryptoKingdomsContractAddress = "0x89f4d59797199b84447f8A2F7eceb0BEf962A9d6"
+
+                        // Ropsten Test Network Game Contract Address
                         if (networkIdentifier == "3") {
-                            cryptoKingdomsContractAddress = "0xFff1bc74A6842aBDbd49fff16Bb4b58A85044458"
+                            cryptoKingdomsContractAddress = "0x6664486f02ffe7509d50c995ac5d5b5d89741a986a66bd3290208cccf6508d0f"
                         }
 
                         cryptoKingdomsContractAddress = web3.toChecksumAddress(cryptoKingdomsContractAddress)
@@ -4336,18 +4487,6 @@
                                 app.updateAccountInfo()
                             }
                         });
-
-                        async function wizardSneakInOut() {
-                            while (window.location.href.includes("alpha")) {
-                                await app.sleep(25 * 60 * 1000)
-                                document.getElementById("wizardUnit").className += " armyUnitMoveInLeft"
-                                await app.sleep(15 * 1000)
-                                document.getElementById("wizardUnit").className += " armyUnitMoveOutLeft"
-                                await app.sleep(10 * 1000)
-                                document.getElementById("wizardUnit").className = "wizardUnit hidden"
-                            }
-                        }
-                        wizardSneakInOut()
 
                         // Game Info
 
@@ -4374,6 +4513,14 @@
                                 app.cancelAllSelection()
                             }
                         }
+
+                        async function wizardSneakInOut() {
+                            while (window.location.href.includes("alpha")) {
+                                await app.sleep(10 * 1000)
+                                document.getElementById("wizardUnit").className = "wizardUnit hidden"
+                            }
+                        }
+                        // wizardSneakInOut()
 
                         // Update last page update time whenever the page changes.
                         document.addEventListener("DOMSubtreeModified", function(event) {
